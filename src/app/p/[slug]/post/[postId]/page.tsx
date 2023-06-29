@@ -46,7 +46,6 @@ const page = async ({ params: { postId } }: pageProps) => {
           {/* @ts-ignore */}
           <PostVoteServer
             postId={post?.id ?? cachedPost.id}
-            // initialVotestAmount={0}
             getData={async () => {
               return await db.post.findUnique({
                 where: {
