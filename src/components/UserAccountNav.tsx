@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
 } from "./ui/DropdownMenu";
 import Link from "next/link";
-import { sign } from "crypto";
 import { signOut } from "next-auth/react";
 
 interface UserAccountNavProps {
