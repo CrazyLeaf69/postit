@@ -39,31 +39,38 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
+  id                String         @id @default(cuid())
+  name              String?
+  email             String?        @unique
+  emailVerified     DateTime?
   createdSubreddits Subreddit[]    @relation("CreatedBy")
   subscriptions     Subscription[]
-  votes         Vote[]
-  username      String?       @unique
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Post          Post[]
-  Comment       Comment[]
-  CommentVote   CommentVote[]
+  votes             Vote[]
+  username          String?        @unique
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  Post              Post[]
+  Comment           Comment[]
+  CommentVote       CommentVote[]
+  // role              Role           @default(USER)
 }
 
+// enum Role {
+//   USER
+//   ADMIN
+// }
+
 model Subreddit {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
+  id          String         @id @default(cuid())
+  name        String         @unique
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  posts       Post[]
   creatorId   String?
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
+
   @@index([name])
 }
 
@@ -72,6 +79,7 @@ model Subscription {
   userId      String
   subreddit   Subreddit @relation(fields: [subredditId], references: [id])
   subredditId String
+
   @@id([userId, subredditId])
 }
 

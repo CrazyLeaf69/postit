@@ -63,6 +63,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
       <CommandInput
         className="outline-none border-none focus:border-none focus:outline-none ring-0"
         placeholder="Search communities..."
+        isLoading={isFetching}
         value={input}
         onValueChange={(value) => {
           setInput(value);

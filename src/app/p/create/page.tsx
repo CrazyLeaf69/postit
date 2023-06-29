@@ -37,7 +37,8 @@ const Page: FC = () => {
         if (err.response?.status === 422) {
           return toast({
             title: "Invalid community name",
-            description: "Please choose a name between 3 and 21 characters.",
+            description:
+              "Please choose a name between 3 and 21 characters with no spaces.",
             variant: "destructive",
           });
         }
