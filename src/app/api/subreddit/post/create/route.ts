@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     });
 
     if (!subscriptionExists) {
-      return new Response("Subscribe to post", { status: 400 });
+      return new Response("Subscribe to post", { status: 403 });
     }
 
     await db.post.create({
