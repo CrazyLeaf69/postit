@@ -8,7 +8,7 @@ import type EditorJS from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
 
 interface EditorProps {
@@ -132,7 +132,16 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       const { data } = await axios.post("/api/subreddit/post/create", payload);
       return data;
     },
-    onError: () => {
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.status === 403) {
+          return toast({
+            title: "Subscribe to post!",
+            description: "You need to join the community to post.",
+            variant: "destructive",
+          });
+        }
+      }
       return toast({
         title: "Something went wrong!",
         description: "Your post could not be created.",
@@ -170,11 +179,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-      <form
-        id="subreddit-post-form"
-        className="w-fit"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form id="subreddit-post-form" className="w-fit" onSubmit={handleSubmit(onSubmit)}>
         <div className="prose prose-stone dark:prose-invert">
           <TextareaAutosize
             ref={(e) => {
