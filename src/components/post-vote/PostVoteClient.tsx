@@ -17,11 +17,7 @@ interface PostVoteClientProps {
   initialVote?: VoteType | null;
 }
 
-const PostVoteClient: FC<PostVoteClientProps> = ({
-  postId,
-  initialVotestAmount,
-  initialVote,
-}) => {
+const PostVoteClient: FC<PostVoteClientProps> = ({ postId, initialVotestAmount, initialVote }) => {
   const { loginToast } = useCustomToast();
   const [votesAmount, setVotesAmount] = useState(initialVotestAmount);
   const [currentVote, setCurrentVote] = useState(initialVote);
@@ -61,23 +57,14 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         setVotesAmount((prev) => (voteType === "UP" ? prev - 1 : prev + 1));
       } else {
         setCurrentVote(voteType);
-        setVotesAmount((prev) =>
-          voteType === "UP"
-            ? prev + (currentVote ? 2 : 1)
-            : prev - (currentVote ? 2 : 1)
-        );
+        setVotesAmount((prev) => (voteType === "UP" ? prev + (currentVote ? 2 : 1) : prev - (currentVote ? 2 : 1)));
       }
     },
   });
 
   return (
-    <div className="flex sm:flex-col gap-5 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
-      <Button
-        size={"sm"}
-        onClick={() => vote("UP")}
-        variant={"ghost"}
-        aria-label="upvote"
-      >
+    <div className="flex flex-col gap-0 pb-4 pr-6 sm:w-20 sm:pb-0">
+      <Button size={"sm"} onClick={() => vote("UP")} variant={"ghost"} aria-label="upvote">
         <ArrowBigUp
           className={cn("h-5 w-5 text-zinc-700", {
             "text-emerald-500 fill-emerald-500": currentVote === "UP",
@@ -85,16 +72,9 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         />
       </Button>
 
-      <p className="text-center py-2 font-medium text-sm text-zinc-900">
-        {votesAmount}
-      </p>
+      <p className="py-2 text-sm font-medium text-center text-zinc-900">{votesAmount}</p>
 
-      <Button
-        size={"sm"}
-        onClick={() => vote("DOWN")}
-        variant={"ghost"}
-        aria-label="downvote"
-      >
+      <Button size={"sm"} onClick={() => vote("DOWN")} variant={"ghost"} aria-label="downvote">
         <ArrowBigDown
           className={cn("h-5 w-5 text-zinc-700", {
             "text-red-500 fill-red-500": currentVote === "DOWN",
